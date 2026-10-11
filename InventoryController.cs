@@ -12,7 +12,7 @@ public class InventoryController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     void Start()
-    { 
+    {
         itemDictionary = FindObjectOfType<ItemDictionary>();
 
         //for (int i = 0; i < slotCount; i++)
@@ -25,25 +25,25 @@ public class InventoryController : MonoBehaviour
         //        slot.currentItem = item;
         //    }
         //}
-
-        public List<InventorySaveData> GetInventoryItem()
+    }
+    public List<InventorySaveData> GetInventoryItem()
+    {
+        List<InventorySaveData> invData = new List<InventorySaveData>();
+        foreach (Transform slotTransform in inventoryPanel.transform)
         {
-            List<InventorySaveData> invData = new List<InventorySaveData>();
-            foreach (Transform slotTransform in inventoryPanel.transform)
-            {
-                Slot slot = slotTransform.GetComponent<Item>();
+            Slot slot = slotTransform.GetComponent<Item>();
 
-                if (slot.currentItem != null)
+            if (slot.currentItem != null)
             {
-                itemDictionary item = slot.currentItem.GetComponenet<item>();
-                invData.Add(new InventorySaveData { itemID = item.ID, slotIndex = slotTransform.getSiblingIndex() });
+            itemDictionary item = slot.currentItem.GetComponenet<item>();
+            invData.Add(new InventorySaveData { itemID = item.ID, slotIndex = slotTransform.getSiblingIndex() });
             }
         }
 
         return invData;
     }
 
-    public void SetInventoryItems(List<InventorySaveData>)
+    public void SetInventoryItems(List<InventorySaveData> inventorySaveData)
     {
         foreach(transform child in InventoryPanel.transform)
         {
@@ -70,4 +70,5 @@ public class InventoryController : MonoBehaviour
             }
         }
     }
+    
 }
