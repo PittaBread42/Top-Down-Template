@@ -4,7 +4,7 @@ This is a top-down (bird's-eye view) game template. Top-down games can be a vari
 
 #Included
 
-This project included player movement, moving between maps, an inventory, hotbar, dragging and dropping items and records of picked up items in the corner of the screen when items are picked up.
+This project included player movement, moving between maps, an inventory, hotbar, saving player position and inventory state, dragging and dropping items and records of picked up items in the corner of the screen when items are picked up.
 
 #Building
 
