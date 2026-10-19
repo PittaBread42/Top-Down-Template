@@ -46,6 +46,8 @@ public class MapController_Dynamic : MonoBehaviour
         {
             CreateAreaUI(area, area == currentArea);
         }
+
+        MovePlayerIcon(currentArea.name);
     }
 
     private void ClearMap()
@@ -72,4 +74,22 @@ public class MapController_Dynamic : MonoBehaviour
 
         UIAreas[area.name] = rectTransform;
     }
+
+    public void UpdateCurrentArea(string newCurrentArea)
+    {
+        foreach(KeyValuePair<string, RectTransform area in UIAreas)
+        {
+            area.Value.GetComponent<Image>().color = area.Key == newCurrentArea ? currentAreaColor : defaultColor;
+        }
+
+        MovePlayerIcon(newCurrentArea);
+    } 
+
+    private void MovePlayerIcon(string newCurrentArea)
+    {
+        if (UIAreas.TryGetValue(newCurrentArea, out RectTransform areaUI))
+        {
+            playerIcon.anchoredPosition = areaUI.anchoredPosition;
+        } 
+    } 
 }
