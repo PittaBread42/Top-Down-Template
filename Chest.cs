@@ -11,8 +11,6 @@ public class Chest : MonoBehaviour, IInteractable
     void Update()
     {
         ChestID ??= GlobalHelper.GenerateUniqueID(gameObject);
-
-
     }
 
     public bool CanInteract()
@@ -29,7 +27,7 @@ public class Chest : MonoBehaviour, IInteractable
     private void OpenChest()
     {
         SetOpened(true);
-
+        SoundEffects.Play("Chest");
         if (itemPrefab)
         {
             GameObject droppedItem = Instantiate(itemPrefab, transform.position + Vector3.down, Quaternion.identity);
