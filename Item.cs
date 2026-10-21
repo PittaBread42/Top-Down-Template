@@ -18,7 +18,11 @@ public class Item : MonoBehaviour
 
     public void UpdateQuantityDisplay()
     {
-        quantityText.Text = quantity > 1 ? quantity.ToString() : "";
+        if(quantityText != null)
+        {
+            quantityText.Text = quantity > 1 ? quantity.ToString() : "";
+        }
+
     }
 
     public void AddInteract(int amount = 1)
