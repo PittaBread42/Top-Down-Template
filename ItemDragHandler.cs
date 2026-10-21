@@ -8,10 +8,13 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public float minDropDistance = 2f;
     public float maxDropDistance = 3f;
+
+    private InventoryController inventoryController;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         canvasGroup = GetComponent<CanvasGroup>();
+        inventoryController = InventoryController.Instance;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -64,16 +67,23 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                     dropslot.currentItem.transform.SetParent(originalSlot.transform);
                     originalSlot.currentItem = dropslot.currentItem;
                     dropslot.currentItem.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+
+                    transform.SetParent(dropslot.transform);
+                    dropslot.currentItem = gameObject;
+                    
+                    GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                 }
             }
             else
             {
                 originalSlot.currentItem = null;
-            }
 
-            transform.SetParent(dropslot.transform);
-            dropslot.currentItem = gameObject;
-        }
+                transform.SetParent(dropslot.transform);
+                dropslot.currentItem = gameObject;
+
+                GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            }  
+        } 
         else
         {
             if (!IsWithinInventory(eventData.position))
@@ -83,12 +93,9 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             else
             {
                 transform.SetParent(originalParent);
+                GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
             }
-
-            transform.SetParent(originalParent);
         }
-
-        GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
     }
 
     bool IsWithinInventory(Vector2 mousePosition)
@@ -145,7 +152,7 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
     {
         if(eventData.button == PointerEventData.InputButton.Right)
         {
-
+            SplitStack();
         }
     }
 
@@ -160,6 +167,21 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         item.RemoveFromStack(splitAmount);
 
         GameObject newItem = item.CloneItem(splitAmount);
-    }
 
+        if(inventoryController == null || newItem == null) return;
+
+        foreach(Transform slotTransform in inventoryController.inventoryPanel.transform)
+        {
+            Slot slot = slotTransform.GetComponent<Slot>();
+            if(slot != null && slot.currentItem == null)
+            {
+                slot.currentItem = newItem;
+                newItem.transform.SetParent(slot.transform);
+                newItem.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                return;
+            }
+        }
+    }
+    item.AddToStack(splitAmount);
+    Destroy(newItem);
 }
