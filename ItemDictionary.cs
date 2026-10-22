@@ -10,15 +10,15 @@ public class ItemDictionary : MonoBehaviour
     {
         itemDictionary = new Dictionary<int, GameObject>();
 
-        for(int i = 0; i < itemPrefabs.Count; i++)
+        for (int i = 0; i < itemPrefabs.Count; i++)
         {
             if (itemPrefabs[i] != null)
-            { 
-                itemPrefabs[i].ID = i + 1; 
+            {
+                itemPrefabs[i].ID = i + 1;
             }
         }
 
-        foreach(Item item in itemPrefabs)
+        foreach (Item item in itemPrefabs)
         {
             itemDictionary[item.ID] = item.gameObject;
         }
