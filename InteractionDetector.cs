@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InteractionDetector : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class InteractionDetector : MonoBehaviour
         if (context.performed)
         {
             interactableInRange?.Interact();
-            if(interactableInRange.CanInteract())
+            if (interactableInRange.CanInteract())
             {
                 interactionIcon.SetActive(false);
             }
@@ -31,7 +32,7 @@ public class InteractionDetector : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D  collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out IInteractable interactable) && (interactable == interactableInRange))
         {
