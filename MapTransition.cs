@@ -7,7 +7,7 @@ public class MapTransition : MonoBehaviour
     CinemachineConfiner2D confiner;
     [SerializeField] Direction direction;
 
-    enum  Direction { up, down, left, right };
+    enum Direction { up, down, left, right };
 
     private void Awake()
     {
@@ -50,6 +50,6 @@ public class MapTransition : MonoBehaviour
 
         }
 
-       player.transform.position = newPos;
+        player.transform.position = newPos;
     }
 }
