@@ -3,7 +3,7 @@ using UnityEngine;
 public class Chest : MonoBehaviour, IInteractable
 {
 
-    public bool IsOpened { get; private set; } 
+    public bool IsOpened { get; private set; }
     public string ChestID { get; private set; }
     public GameObject itemPrefab;
     public Sprite openedSprite;
@@ -27,7 +27,7 @@ public class Chest : MonoBehaviour, IInteractable
     private void OpenChest()
     {
         SetOpened(true);
-        SoundEffects.Play("Chest");
+        //SoundEffects.Play("Chest");
         if (itemPrefab)
         {
             GameObject droppedItem = Instantiate(itemPrefab, transform.position + Vector3.down, Quaternion.identity);
