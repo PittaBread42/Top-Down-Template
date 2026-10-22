@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class BounceEffect : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class BounceEffect : MonoBehaviour
 
     public void StartBounce()
     {
-        StartCoroutine(BounceHandler(transform));
+        StartCoroutine(BounceHandler());
     }
 
     private IEnumerator BounceHandler()
