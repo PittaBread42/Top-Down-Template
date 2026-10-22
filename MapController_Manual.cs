@@ -8,7 +8,7 @@ public class MapController_Manual : MonoBehaviour
     public static MapController_Manual Instance { get; set; }
 
     public GameObject mapParent;
-    private List<Image> mapImages;
+    List<Image> mapImages;
 
     public Color highlightedColor = Color.blue;
     public Color dimmedColor = new Color(1f, 1f, 1f, 0.5f);
@@ -31,12 +31,12 @@ public class MapController_Manual : MonoBehaviour
 
     public void HighlightArea(string areaName)
     {
-        foreach(Image area in mapImages)
+        foreach (Image area in mapImages)
         {
             area.color = dimmedColor;
         }
 
-        Image.currentArea = mapImages.Find(x => x.name == areaName);
+        Image currentArea = mapImages.Find(x => x.name == areaName);
 
         if (currentArea != null)
         {
