@@ -1,14 +1,15 @@
 using UnityEngine;
 using Unity.Cinemachine;
 using System.IO;
-using Cinemachine;
 using System.Linq;
+using System.Collections.Generic;
 
 public class SaveController : MonoBehaviour
 {
     private string saveLocation;
     private InventoryController inventoryController;
     private HotbarController hotbarController;
+    private Chest[] chests;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -28,18 +29,19 @@ public class SaveController : MonoBehaviour
     {
         SaveData saveData = new SaveData
         {
-            playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position, mapBoundary = FindObjectOfType<CinemachineConfiner2D>().BoundingShape2D.gameObject.name,
+            playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position,
+            mapBoundary = FindObjectOfType<CinemachineConfiner2D>().BoundingShape2D.gameObject.name,
             inventorySaveData = inventoryController.GetInventoryItems(),
-            hotbarSaveData = hotbarController.GetHotbarItems()
-            chestSaveData = GetChestState()
+            hotbarSaveData = hotbarController.GetHotbarItems(),
+            chestSaveData = GetChestsState()
         };
 
         File.WriteAllText(saveLocation, JsonUtility.ToJson(saveData));
     }
 
-    private List<Chest> GetChestsState()
+    private List<ChestSaveData> GetChestsState()
     {
-        List<Chest> chestStates = new List<Chest>();
+        List<ChestSaveData> chestStates = new List<ChestSaveData>();
 
         foreach (Chest chest in chests)
         {
@@ -53,7 +55,7 @@ public class SaveController : MonoBehaviour
 
         return chestStates;
     }
-    
+
     public void LoadGame()
     {
         if (File.Exists(saveLocation))
@@ -63,7 +65,7 @@ public class SaveController : MonoBehaviour
             FindObjectOfType<CinemachineConfiner2D>().BoundingShape2D = GameObject.Find(saveData.mapBoundary).GetComponent<PolygonCollider2D>();
 
             PolygonCollider2D savedMapBoundary = GameObject.Find(saveData.mapBoundary).GetComponent<PolygonCollider2D>();
-            FindObjectOfType<CinemachineConfiner>().BoundingShape2D = savedMapBoundary;
+            FindObjectOfType<CinemachineConfiner2D>().BoundingShape2D = savedMapBoundary;
 
             MapController_Manual.Instance?.HighlightArea(saveData.mapBoundary);
             MapController_Dynamic.Instance?.GenerateMap(savedMapBoundary);
@@ -71,7 +73,7 @@ public class SaveController : MonoBehaviour
             inventoryController.SetInventoryItems(saveData.inventorySaveData);
             hotbarController.SetHotbarItems(saveData.hotbarSaveData);
 
-            LoadChestStates(saveData.chestSaveData)
+            LoadChestStates(saveData.chestSaveData);
         }
         else
         {
@@ -86,10 +88,11 @@ public class SaveController : MonoBehaviour
 
     private void LoadChestStates(List<ChestSaveData> chestStates)
     {
-        foreach(Chest chest in chests)
+        foreach (Chest chest in chests)
         {
-            ChestSaveData chestSaveData = chestStates.FirstOrDefault(c => c.chestID == chest.ChestID)
-            
+            ChestSaveData chestSaveData = chestStates.FirstOrDefault(c => c.chestID == chest.ChestID);
+
+
             if (chestSaveData != null)
             {
                 chest.SetOpened(chestSaveData.isOpened);
@@ -98,4 +101,3 @@ public class SaveController : MonoBehaviour
         }
     }
 }
-
