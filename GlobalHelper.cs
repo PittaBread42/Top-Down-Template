@@ -1,4 +1,6 @@
-public static class GlobalHelper 
+using UnityEngine;
+
+public static class GlobalHelper
 {
     public static string GenerateUniqueID(GameObject obj)
     {
