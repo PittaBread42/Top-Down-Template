@@ -18,14 +18,14 @@ public class Item : MonoBehaviour
 
     public void UpdateQuantityDisplay()
     {
-        if(quantityText != null)
+        if (quantityText != null)
         {
-            quantityText.Text = quantity > 1 ? quantity.ToString() : "";
+            quantityText.text = quantity > 1 ? quantity.ToString() : "";
         }
 
     }
 
-    public void AddInteract(int amount = 1)
+    public void AddToStack(int amount = 1)
     {
         quantity += amount;
         UpdateQuantityDisplay();
@@ -56,9 +56,9 @@ public class Item : MonoBehaviour
     public virtual void PickUp()
     {
         Sprite itemIcon = GetComponent<Image>().sprite;
-        if(itemPickupUIController.Instance != null)
+        if (ItemPickupUIController.Instance != null)
         {
-            itemPickupUIController.Instance.ShowItemPickupUI(Name, itemIcon);
+            ItemPickupUIController.Instance.ShowItemPickupUI(Name, itemIcon);
         }
     }
 }
