@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class MapController_Dynamic : MonoBehaviour
 {
@@ -17,14 +18,14 @@ public class MapController_Dynamic : MonoBehaviour
     public PolygonCollider2D initalArea;
     public float mapScale = 10f;
 
-    private PolygonCollider2D[] map Areas;
+    private PolygonCollider2D[] mapAreas;
     private Dictionary<string, RectTransform> UIAreas = new Dictionary<string, RectTransform>();
 
     public static MapController_Dynamic Instance { get; set; }
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
@@ -77,19 +78,19 @@ public class MapController_Dynamic : MonoBehaviour
 
     public void UpdateCurrentArea(string newCurrentArea)
     {
-        foreach(KeyValuePair<string, RectTransform area in UIAreas)
+        foreach (KeyValuePair<string, RectTransform> area in UIAreas)
         {
             area.Value.GetComponent<Image>().color = area.Key == newCurrentArea ? currentAreaColor : defaultColor;
         }
 
         MovePlayerIcon(newCurrentArea);
-    } 
+    }
 
     private void MovePlayerIcon(string newCurrentArea)
     {
         if (UIAreas.TryGetValue(newCurrentArea, out RectTransform areaUI))
         {
             playerIcon.anchoredPosition = areaUI.anchoredPosition;
-        } 
-    } 
+        }
+    }
 }
