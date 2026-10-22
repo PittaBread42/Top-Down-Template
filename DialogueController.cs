@@ -9,12 +9,13 @@ public class DialogueController : MonoBehaviour
     public GameObject dialoguePanel;
     public TMP_Text dialogueText, nameText;
     public Image portraitImage;
+
     public Transform choiceContainer;
     public GameObject choiceButtonPrefab;
 
     void Awake()
     {
-        if(Instance == null) Instance = this;
+        if (Instance == null) Instance = this;
         else Destroy(gameObject);
     }
 
@@ -25,18 +26,18 @@ public class DialogueController : MonoBehaviour
 
     public void SetNPCInfo(string npcName, Sprite portrait)
     {
-        nameText = npcName;
-        portraitImage = portrait;
+        nameText.text = npcName;
+        portraitImage.sprite = portrait;
     }
 
-    public void SetDialoguetext(string text)
+    public void SetDialogueText(string text)
     {
         dialogueText.text = text;
     }
 
     public void ClearChoices()
     {
-        foreach (Transform child in choiceContainer) Destroy (child.gameObject);
+        foreach (Transform child in choiceContainer) Destroy(child.gameObject);
     }
 
     public GameObject CreateChoiceButton(string choiceText, UnityEngine.Events.UnityAction onClick)
@@ -46,4 +47,4 @@ public class DialogueController : MonoBehaviour
         choiceButton.GetComponent<Button>().onClick.AddListener(onClick);
         return choiceButton;
     }
-} 
+}
