@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class playerItemCollector : MonoBehaviour
+public class PlayerItemCollector : MonoBehaviour
 {
     private InventoryController inventoryController;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -11,16 +11,16 @@ public class playerItemCollector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.CompareTag("Item"))
+        if (collision.CompareTag("Item"))
         {
             Item item = collision.GetComponent<Item>();
             if (item != null)
             {
                 bool itemAdded = inventoryController.AddItem(collision.gameObject);
 
-                if(itemAdded)
+                if (itemAdded)
                 {
-                    item.Pickup();
+                    item.PickUp();
                     Destroy(collision.gameObject);
                 }
             }
