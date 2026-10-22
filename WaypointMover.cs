@@ -1,5 +1,6 @@
 using UnityEngine;
-using Unity.System.Collections;
+using System.Collections.Generic;
+using System.Collections;
 
 public class WaypointMover : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class WaypointMover : MonoBehaviour
 
     private Transform[] waypoints;
     private int currentWaypointIndex;
-    private bool isWaiting;
+    private bool isWalking;
     private Animator animator;
 
     private float lastInputX;
@@ -21,9 +22,9 @@ public class WaypointMover : MonoBehaviour
         animator = GetComponent<Animator>();
         waypoints = new Transform[waypointParent.childCount];
 
-        for (i = 0; i < waypointParent.childCount; i++)
+        for (int i = 0; i < waypointParent.childCount; i++)
         {
-            waypoints[i] = waypointParents.GetChild(i);
+            waypoints[i] = waypointParent.GetChild(i);
         }
     }
 
@@ -36,7 +37,7 @@ public class WaypointMover : MonoBehaviour
             animator.SetFloat("LastInputY", lastInputY);
             return;
         }
-        
+
         MoveToWaypoint();
     }
 
@@ -45,7 +46,7 @@ public class WaypointMover : MonoBehaviour
         Transform target = waypoints[currentWaypointIndex];
         Vector2 direction = (transform.position - target.position).normalized;
 
-        if(direction.magnitude > 0f)
+        if (direction.magnitude > 0f)
         {
             lastInputX = direction.x;
             lastInputY = direction.y;
@@ -72,8 +73,8 @@ public class WaypointMover : MonoBehaviour
 
         yield return new WaitForSeconds(waitTime);
 
-        currentWaypointIndex = loopWaypoints ? (currentWaypointIndex + 1) % waypoint.Length : Mathf.Min(currentWaypointIndex + 1, waypoints.Length - 1);
-        
+        currentWaypointIndex = loopWaypoints ? (currentWaypointIndex + 1) % waypoints.Length : Mathf.Min(currentWaypointIndex + 1, waypoints.Length - 1);
+
         isWalking = false;
     }
 }
