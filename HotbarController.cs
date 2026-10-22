@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections.Generic;
 
-public class HotbarController : Monobehaviour
+public class HotbarController : MonoBehaviour
 {
     public GameObject hotbarPanel;
     public GameObject slotPrefab;
     public int slotCount = 10;
 
-    private itemDictionary itemDictionary;
+    private ItemDictionary itemDictionary;
 
     private Key[] hotbarKeys;
 
@@ -15,7 +16,7 @@ public class HotbarController : Monobehaviour
     {
         itemDictionary = FindObjectOfType<ItemDictionary>();
 
-        hotbarKeys = new Key[slotCount]
+        hotbarKeys = new Key[slotCount];
         for (int i = 0; i < slotCount; i++)
         {
             hotbarKeys[i] = i < 9 ? (Key)((int)Key.Digit1 + i) : Key.Digit0;
@@ -26,7 +27,7 @@ public class HotbarController : Monobehaviour
     {
         for (int i = 0; i < slotCount; i++)
         {
-            if(Keyboard.current[hotbarKeys[i]].wasPressedThisFrame)
+            if (Keyboard.current[hotbarKeys[i]].wasPressedThisFrame)
             {
                 UseItemInSlot(i);
             }
@@ -36,7 +37,7 @@ public class HotbarController : Monobehaviour
     void UseItemInSlot(int index)
     {
         Slot slot = hotbarPanel.transform.GetChild(index).GetComponent<Slot>();
-        if(slot.currentItem != null)
+        if (slot.currentItem != null)
         {
             Item item = slot.currentItem.GetComponent<Item>();
             item.UseItem();
@@ -62,7 +63,7 @@ public class HotbarController : Monobehaviour
 
     public void SetHotbarItems(List<InventorySaveData> hotbarSaveData)
     {
-        foreach(Transform child in hotbarPanel.transform)
+        foreach (Transform child in hotbarPanel.transform)
         {
             Destroy(child.gameObject);
         }
@@ -72,7 +73,7 @@ public class HotbarController : Monobehaviour
             Instantiate(slotPrefab, hotbarPanel.transform);
         }
 
-        foreach(InventorySaveData data in hotbarSaveData)
+        foreach (InventorySaveData data in hotbarSaveData)
         {
             if (data.slotIndex < slotCount)
             {
