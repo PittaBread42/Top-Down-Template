@@ -20,7 +20,6 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.LogWarning("OnBeginDrag");
         originalParent = transform.parent;
         transform.SetParent(transform.root);
         canvasGroup.blocksRaycasts = false;
@@ -29,13 +28,11 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
 
     public void OnDrag(PointerEventData eventData)
     {
-        Debug.LogWarning("OnDrag");
         transform.position = eventData.position;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.LogWarning("OnEndDrag");
         canvasGroup.blocksRaycasts = true;
         canvasGroup.alpha = 1f;
 
@@ -56,7 +53,6 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         {
             if (dropslot.currentItem != null)
             {
-
                 //Item droppedItem = GetComponent<Item>();
                 //Item targetItem = dropslot.currentItem.GetComponent<Item>();
 
@@ -71,11 +67,10 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
                 dropslot.currentItem.transform.SetParent(originalSlot.transform);
                 originalSlot.currentItem = dropslot.currentItem;
                 dropslot.currentItem.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                //transform.SetParent(dropslot.transform);
+                //dropslot.currentItem = gameObject;
 
-                    //transform.SetParent(dropslot.transform);
-                    //dropslot.currentItem = gameObject;
-
-                    //GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+                //GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                 //}
             }
             else
@@ -95,6 +90,7 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         {
             if (!IsWithinInventory(eventData.position))
             {
+                gameObject.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                 DropItem(originalSlot);
             }
             else
@@ -105,7 +101,6 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         }
 
         GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
-
     }
 
     bool IsWithinInventory(Vector2 mousePosition)
@@ -141,7 +136,6 @@ public class ItemDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
             Debug.LogError("Missing 'Player' tag");
             return;
         }
-
         Vector2 dropOffset = Random.insideUnitCircle.normalized * Random.Range(minDropDistance, maxDropDistance);
         Vector2 dropPosition = (Vector2)playerTransform.position + dropOffset;
 
