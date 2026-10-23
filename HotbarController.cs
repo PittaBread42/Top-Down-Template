@@ -14,7 +14,7 @@ public class HotbarController : MonoBehaviour
 
     private void Awake()
     {
-        itemDictionary = FindObjectOfType<ItemDictionary>();
+        itemDictionary = FindFirstObjectByType<ItemDictionary>();
 
         hotbarKeys = new Key[slotCount];
         for (int i = 0; i < slotCount; i++)
