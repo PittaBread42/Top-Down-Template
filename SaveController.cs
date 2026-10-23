@@ -20,8 +20,8 @@ public class SaveController : MonoBehaviour
     public void InitializeComponents()
     {
         saveLocation = Path.Combine(Application.persistentDataPath, "saveData.json");
-        inventoryController = FindObjectOfType<InventoryController>();
-        hotbarController = FindObjectOfType<HotbarController>();
+        inventoryController = FindFirstObjectByType<InventoryController>();
+        hotbarController = FindFirstObjectByType<HotbarController>();
         chests = FindObjectsOfType<Chest>();
     }
 
@@ -30,7 +30,7 @@ public class SaveController : MonoBehaviour
         SaveData saveData = new SaveData
         {
             playerPosition = GameObject.FindGameObjectWithTag("Player").transform.position,
-            mapBoundary = FindObjectOfType<CinemachineConfiner2D>().BoundingShape2D.gameObject.name,
+            mapBoundary = FindFirstObjectByType<CinemachineConfiner2D>().BoundingShape2D.gameObject.name,
             inventorySaveData = inventoryController.GetInventoryItems(),
             hotbarSaveData = hotbarController.GetHotbarItems(),
             chestSaveData = GetChestsState()
@@ -62,10 +62,10 @@ public class SaveController : MonoBehaviour
         {
             SaveData saveData = JsonUtility.FromJson<SaveData>(File.ReadAllText(saveLocation));
             GameObject.FindGameObjectWithTag("Player").transform.position = saveData.playerPosition;
-            FindObjectOfType<CinemachineConfiner2D>().BoundingShape2D = GameObject.Find(saveData.mapBoundary).GetComponent<PolygonCollider2D>();
+            FindFirstObjectByType<CinemachineConfiner2D>().BoundingShape2D = GameObject.Find(saveData.mapBoundary).GetComponent<PolygonCollider2D>();
 
             PolygonCollider2D savedMapBoundary = GameObject.Find(saveData.mapBoundary).GetComponent<PolygonCollider2D>();
-            FindObjectOfType<CinemachineConfiner2D>().BoundingShape2D = savedMapBoundary;
+            FindFirstObjectByType<CinemachineConfiner2D>().BoundingShape2D = savedMapBoundary;
 
             MapController_Manual.Instance?.HighlightArea(saveData.mapBoundary);
             MapController_Dynamic.Instance?.GenerateMap(savedMapBoundary);
