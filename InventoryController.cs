@@ -27,7 +27,7 @@ public class InventoryController : MonoBehaviour
 
     void Start()
     {
-        itemDictionary = FindObjectOfType<ItemDictionary>();
+        itemDictionary = FindFirstObjectByType<ItemDictionary>();
 
         //for (int i = 0; i < slotCount; i++)
         //{
