@@ -15,6 +15,10 @@ public class NPCDialogue : MonoBehaviour
     public float autoProgressDelay = 1.5f;
 
     public DialogueChoice[] choices;
+
+    public int questInProgressIndex;
+    public int questCompleted;
+    public Quest quest;
 }
 
 [System.Serializable]
@@ -24,4 +28,5 @@ public class DialogueChoice
     public int dialogueIndex;
     public string[] choices;
     public int[] nextDialogueIndexes;
+    public bool[] givesQuest;
 }
