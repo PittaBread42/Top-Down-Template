@@ -31,15 +31,15 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = moveInput * moveSpeed;
         animator.SetBool("isWalking", rb.linearVelocity.magnitude > 0);
 
-        if(rb.velocity.magnitude > 0 && !playingFootsteps)
+        if (rb.linearVelocity.magnitude > 0 && !playingFootsteps)
         {
             StartFootsteps();
         }
-        else if (rb.velocity.magnitude == 0)
+        else if (rb.linearVelocity.magnitude == 0)
         {
             StopFootsteps();
         }
-        
+
     }
 
     public void Move(InputAction.CallbackContext context)
@@ -61,8 +61,8 @@ public class PlayerMovement : MonoBehaviour
     void StartFootsteps()
     {
         playingFootsteps = true;
-        InvokeRepeating(nameof(PlayFootstep), of, footstepSpeed);
-        
+        InvokeRepeating(nameof(PlayFootstep), 0f, footstepSpeed);
+
     }
 
     void StopFootsteps()
