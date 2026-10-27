@@ -12,13 +12,13 @@ public class SoundEffectManager : MonoBehaviour
 
     private void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
-            AudioSouce[] audioSources = GetComponents<AudioSource>();
+            AudioSource[] audioSources = GetComponents<AudioSource>();
             audioSource = audioSources[0];
             randomPitchAudioSource = audioSources[1];
-            soundEffectLibrary = GetComponent<SoundEffectLibrary>():
+            soundEffectLibrary = GetComponent<SoundEffectLibrary>();
             // DontDestroyOnLoad(gameObject);
         }
         else
@@ -26,34 +26,34 @@ public class SoundEffectManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-  
+
     public static void Play(string soundName, bool randomPitch = false)
     {
         AudioClip audioClip = soundEffectLibrary.GetRandomClip(soundName);
-        if(audioClip != null)
+        if (audioClip != null)
         {
-            if(randomPitch)
+            if (randomPitch)
             {
-                randomPitchAudioSource = Random.Range(1f, 1.5f);
+                randomPitchAudioSource.pitch = Random.Range(1f, 1.5f);
                 randomPitchAudioSource.PlayOneShot(audioClip);
             }
             else
             {
                 audioSource.PlayOneShot(audioClip);
             }
-            
+
         }
     }
 
-    void Start() 
+    void Start()
     {
-        sfxSlider.OnValueChanged.AddListener(delegate {onValueChanged();});
+        sfxSlider.onValueChanged.AddListener(delegate { OnValueChanged(); });
     }
 
     public static void SetVolume(float volume)
     {
         audioSource.volume = volume;
-        randomPitchAudioSource.volume = volume;
+        //randomPitchAudioSource.volume = volume;
     }
 
     public void OnValueChanged()
