@@ -21,13 +21,13 @@ public class Chest : MonoBehaviour, IInteractable
     public void Interact()
     {
         if (!CanInteract()) return;
-
+        OpenChest();
     }
 
     private void OpenChest()
     {
         SetOpened(true);
-        //SoundEffects.Play("Chest");
+        SoundEffectManager.Play("Chest");
         if (itemPrefab)
         {
             GameObject droppedItem = Instantiate(itemPrefab, transform.position + Vector3.down, Quaternion.identity);
