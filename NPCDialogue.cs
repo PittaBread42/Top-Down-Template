@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(filename = "NewNPCDialogue", menuName = "NPC Dialogue")]
+[CreateAssetMenu(fileName = "NewNPCDialogue", menuName = "NPC Dialogue")]
 
 public class NPCDialogue : MonoBehaviour
 {
@@ -16,9 +16,9 @@ public class NPCDialogue : MonoBehaviour
 
     public DialogueChoice[] choices;
 
-    public int questInProgressIndex;
-    public int questCompleted;
-    public Quest quest;
+    //public int questInProgressIndex;
+    //public int questCompleted;
+    //public Quest quest;
 }
 
 [System.Serializable]
@@ -28,5 +28,5 @@ public class DialogueChoice
     public int dialogueIndex;
     public string[] choices;
     public int[] nextDialogueIndexes;
-    public bool[] givesQuest;
+    //public bool[] givesQuest;
 }
