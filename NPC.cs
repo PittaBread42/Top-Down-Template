@@ -11,8 +11,8 @@ public class NPC : MonoBehaviour
     private int dialogueIndex;
     private bool isTyping, isDialogueActive;
 
-    private enum QuestState { NotStarted, InProgress, Completed }
-    privte QuestState questState = QuestState.NotStarted;
+    //private enum QuestState { NotStarted, InProgress, Completed }
+    //private QuestState questState = QuestState.NotStarted;
 
     private void Start()
     {
@@ -41,20 +41,20 @@ public class NPC : MonoBehaviour
 
     void StartDialogue()
     {
-        SyncQuestState();
+        //SyncQuestState();
 
-        if(questState = QuestState.NotStarted)
-        {
-            dialogueIndex = 0;
-        }
-        else if(questState = QuestState.InProgress)
-        {
-            dialogueIndex = dialogueData.questInProgressIndex;
-        }
-        else if(questState = QuestState.Completed)
-        {
-            dialogueIndex = dialogueData.questCompletedIndex;
-        }
+        //if (questState = QuestState.NotStarted)
+        //{
+        //    dialogueIndex = 0;
+        //}
+        //else if (questState = QuestState.InProgress)
+        //{
+        //    dialogueIndex = dialogueData.questInProgressIndex;
+        //}
+        //else if (questState = QuestState.Completed)
+        //{
+        //    dialogueIndex = dialogueData.questCompletedIndex;
+        //}
 
         isDialogueActive = true;
 
@@ -65,20 +65,20 @@ public class NPC : MonoBehaviour
         DisplayCurrentLine();
     }
 
-    private void SyncQuestState()
-    {
-        if(dialogueData.quest == null) return;
+    //private void SyncQuestState()
+    //{
+    //    if (dialogueData.quest == null) return;
 
-        string questID = dialogueData.quest.questID;
-        if(QuestController.Instance.IsQuestActive(questID))
-        {
-            questState = QuestState.InProgress;
-        }
-        else
-        {
-            questState = QuestState.NotStarted;
-        }
-    }
+    //    string questID = dialogueData.quest.questID;
+    //    if (QuestController.Instance.IsQuestActive(questID))
+    //    {
+    //        questState = QuestState.InProgress;
+    //    }
+    //    else
+    //    {
+    //        questState = QuestState.NotStarted;
+    //    }
+    //}
 
     void NextLine()
     {
@@ -142,18 +142,22 @@ public class NPC : MonoBehaviour
         for (int i = 0; i < choice.choices.Length; i++)
         {
             int nextIndex = choice.nextDialogueIndexes[i];
-            bool givesQuest = choice.giveQuest[i];
-            dialogueUI.CreateChoiceButton(choice.choices[i], () => ChooseOption(nextIndex, givesQuest));
+            //bool givesQuest = choice.giveQuest[i];
+            dialogueUI.CreateChoiceButton(choice.choices[i], () => ChooseOption(nextIndex
+                //, givesQuest
+                ));
         }
     }
 
-    void ChooseOption(int nextIndex, bool givesQuest)
+    void ChooseOption(int nextIndex
+        //, bool givesQuest
+        )
     {
-        if(givesQuest)
-        {
-            QuestController.Instance.AcceptQuest(dialogueData.quest);
-            questState = QuestState.InProgress;
-        }
+        //if (givesQuest)
+        //{
+        //    QuestController.Instance.AcceptQuest(dialogueData.quest);
+        //    questState = QuestState.InProgress;
+        //}
         dialogueIndex = nextIndex;
         dialogueUI.ClearChoices();
         DisplayCurrentLine();
