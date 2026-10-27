@@ -1,65 +1,65 @@
-using UnityEngine;
-using System.Collections.Generic;
-using System;
+//using UnityEngine;
+//using System.Collections.Generic;
+//using System;
 
-[CreateAssetMenu(menuName = "Quests/Quest")]
+//[CreateAssetMenu(menuName = "Quests/Quest")]
 
-public class Quest : ScriptableObject
-{
-    public string questID;
-    public string questName;
-    public string description;
-    public List<QuestObjectives> objectives;
+//public class Quest : ScriptableObject
+//{
+//    public string questID;
+//    public string questName;
+//    public string description;
+//    public List<QuestObjective> objectives;
 
-    private void OnValidate()
-    {
-        if(string.IsNullOrEmpty(questID))
-        {
-            questID = questName + Guid.newGuid().ToString();
-        }
-    }
-}
+//    private void OnValidate()
+//    {
+//        if (string.IsNullOrEmpty(questID))
+//        {
+//            questID = questName + Guid.newGuid().ToString();
+//        }
+//    }
+//}
 
-[System.Serializable]
-public class QuestObjective
-{
-    public string objectiveID;
-    public string description;
-    public ObjectiveType type;
-    public int requiredAmount;
-    public int currentAmount
+//[System.Serializable]
+//public class QuestObjective
+//{
+//    public string objectiveID;
+//    public string description;
+//    public ObjectiveType type;
+//    public int requiredAmount;
+//    public int currentAmount;
 
-    public bool IsCompleted => currentAmount >= requiredAmount;
+//    public bool IsCompleted => currentAmount >= requiredAmount;
 
-}
+//}
 
-public enum ObjectiveType { CollectionItem, DefeatEnemy, ReachLocation, TalkNPC, Custom }
+//public enum ObjectiveType { CollectionItem, DefeatEnemy, ReachLocation, TalkNPC, Custom }
 
-[System.Serializable]
-public class QuestProgress
-{
-    public Quest quest;
-    public List<QuestObjective> objectives;
+//[System.Serializable]
+//public class QuestProgress
+//{
+//    public Quest quest;
+//    public List<QuestObjective> objectives;
 
-    public QuestProgress(Quest quest)
-    {
-        this.quest = quest;
-        objectives = new List<QuestObjetive>();
+//    public QuestProgress(Quest quest)
+//    {
+//        this.quest = quest;
+//        objectives = new List<QuestObjetive>();
 
-        foreach(var obj in quest.objectives)
-        {
-            objectives.Add(new QuestObjective
-            {
-                objectiveID = obj.objectiveID,
-                description = obj.description,
-                type = obj.type,
-                requiredAmount = obj.requiredAmount,
-                currentAmount = 0
-            });
-        }
-    }
+//        foreach (var obj in quest.objectives)
+//        {
+//            objectives.Add(new QuestObjective
+//            {
+//                objectiveID = obj.objectiveID,
+//                description = obj.description,
+//                type = obj.type,
+//                requiredAmount = obj.requiredAmount,
+//                currentAmount = 0
+//            });
+//        }
+//    }
 
-    public bool IsCompleted => objectives.TrueForAll(o => o.IsCompleted);
+//    public bool IsCompleted => objectives.TrueForAll(o => o.IsCompleted);
 
-    public string QuestID => quest.questID;
-}
+//    public string QuestID => quest.questID;
+//}
