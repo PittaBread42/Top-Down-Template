@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.Random;
 
 public class SoundEffectLibrary : MonoBehaviour
 {
@@ -12,7 +11,7 @@ public class SoundEffectLibrary : MonoBehaviour
         InitialiseDictionary();
     }
 
-    private void InitialiseDictionary 
+    private void InitialiseDictionary()
     {
         soundDictionary = new Dictionary<string, List<AudioClip>>();
         foreach (SoundEffectGroup soundEffectGroup in soundEffectGroups)
@@ -22,18 +21,18 @@ public class SoundEffectLibrary : MonoBehaviour
     }
 
     public AudioClip GetRandomClip(string name)
+{
+    if (soundDictionary.ContainsKey(name))
     {
-        if(soundDictionary.ContainsKey(name))
+        List<AudioClip> audioClips = soundDictionary[name];
+        if (audioClips.Count > 0)
         {
-            List<AudioClip> audioClips = soundDictionary(name);
-            if(audioClips.Count > 0)
-            {
-                return audioClips[Random.Range(0, audioClips.Count)];
-            }
+            return audioClips[Random.Range(0, audioClips.Count)];
         }
-
-        return null;
     }
+
+    return null;
+}
 
 }
 
