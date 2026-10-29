@@ -22,7 +22,7 @@ public class SaveController : MonoBehaviour
         saveLocation = Path.Combine(Application.persistentDataPath, "saveData.json");
         inventoryController = FindFirstObjectByType<InventoryController>();
         hotbarController = FindFirstObjectByType<HotbarController>();
-        chests = FindObjectsOfType<Chest>();
+        chests = FindObjectsByType<Chest>(FindObjectsSortMode.InstanceID);
     }
 
     public void SaveGame()
