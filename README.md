@@ -19,7 +19,8 @@ NIY = Not implemented yet (it's not currently used in the game)
 - Items have an effect when dropped
 - Two map scripts (I have used the manual one in my game)
 - Pausing the game when the UI is open
-- NPC interaction scripts - NIY
+- NPC interaction scripts
+- NPC movement and animation scripts
 - Sound Effects - NIY
 - Quest System - NIY
 
