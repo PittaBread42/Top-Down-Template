@@ -11,6 +11,8 @@ public class WaypointMover : MonoBehaviour
 
     private Transform[] waypoints;
     private int currentWaypointIndex;
+    private bool isWaiting;
+
     private bool isWalking;
     private Animator animator;
 
@@ -30,11 +32,12 @@ public class WaypointMover : MonoBehaviour
 
     void Update()
     {
-        if (PauseController.IsGamePaused || isWalking)
+        if (PauseController.IsGamePaused || isWaiting)
         {
             animator.SetBool("isWalking", false);
-            animator.SetFloat("LastInputX", lastInputX);
-            animator.SetFloat("LastInputY", lastInputY);
+            animator.SetFloat("InputX", lastInputX);
+            animator.SetFloat("InputY", lastInputY);
+            
             return;
         }
 
@@ -44,14 +47,14 @@ public class WaypointMover : MonoBehaviour
     void MoveToWaypoint()
     {
         Transform target = waypoints[currentWaypointIndex];
-        Vector2 direction = (transform.position - target.position).normalized;
+        Vector2 direction = (transform.position - target.position).normalized * -1;
 
         if (direction.magnitude > 0f)
         {
             lastInputX = direction.x;
             lastInputY = direction.y;
         }
-
+        
         transform.position = Vector2.MoveTowards(transform.position, target.position, moveSpeed * Time.deltaTime);
         animator.SetFloat("InputX", direction.x);
         animator.SetFloat("InputY", direction.y);
@@ -59,22 +62,22 @@ public class WaypointMover : MonoBehaviour
 
         if (Vector2.Distance(transform.position, target.position) < 0.1f)
         {
-            StartCoroutine(waitAtWaypoint());
+            StartCoroutine(WaitAtWaypoint());
         }
     }
 
-    IEnumerator waitAtWaypoint()
+    IEnumerator WaitAtWaypoint()
     {
-        isWalking = true;
+        isWaiting = true;
         animator.SetBool("isWalking", false);
 
-        animator.SetFloat("LastInputX", lastInputX);
-        animator.SetFloat("LastInputY", lastInputY);
+        animator.SetFloat("lastInputX", lastInputX);
+        animator.SetFloat("lastInputY", lastInputY);
 
         yield return new WaitForSeconds(waitTime);
 
         currentWaypointIndex = loopWaypoints ? (currentWaypointIndex + 1) % waypoints.Length : Mathf.Min(currentWaypointIndex + 1, waypoints.Length - 1);
 
-        isWalking = false;
+        isWaiting = false;
     }
 }
