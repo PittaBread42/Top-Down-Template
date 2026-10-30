@@ -20,7 +20,8 @@ NIY = Not implemented yet (it's not currently used in the game)
 - Two map scripts (I have used the manual one in my game)
 - Pausing the game when the UI is open
 - NPC interaction scripts
-- NPC movement and animation scripts
+- NPC movement between waypoints
+- NPC animation 
 - Sound Effects - NIY
 - Quest System - NIY
 
