@@ -48,9 +48,53 @@ public class ShopNPC : MonoBehaviour, IInteractable
 
     public bool Interact()
     {
-        if (ShopController.Instance == null)
+        if (ShopController.Instance == null) return;
+
+        if (ShopController.Instance.shopPanel.activeSelf) ?
         {
-            
+            ShopController.Instance.CloseShop();
         }
+        else
+        {
+            ShopController.Instance.OpenShop(this);
+        }
+    }
+
+    public List<ShopStockItem> GetCurrentShopStock()
+    {
+        return currentShopStock;
+    }
+
+    public void SetStock(List<ShopStockItem> stock))
+    {
+        currentShopStock = stock;
+    }
+
+    public void AddToStock(int itemID, int quantity)
+    {
+        ShopStockItem existing = currentShopStock.Find(s => s.itemID == itemID);
+        if (existing != null)
+        {
+            existing.quantity += quantity;
+        }
+        else
+        {
+            currentShopStock.Add(new ShopStockItem
+            {
+                itemID = itemID,
+                quantity = quantity
+            });
+        }
+    }
+
+    public bool RemoveFromStock(int itemID, int quantity)
+    {
+        ShopStockItem existing = currentShopStock.Find(s => s.itemID == itemID);
+        if (existing != null && existing.quantity >= quantity)
+        {
+            existing.quantity -= quantity;
+            return true;
+        } 
+        return false;
     }
 }
