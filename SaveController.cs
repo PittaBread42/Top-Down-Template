@@ -10,6 +10,7 @@ public class SaveController : MonoBehaviour
     private InventoryController inventoryController;
     private HotbarController hotbarController;
     private Chest[] chests;
+    private ShopNPC[] shops;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,6 +24,7 @@ public class SaveController : MonoBehaviour
         inventoryController = FindFirstObjectByType<InventoryController>();
         hotbarController = FindFirstObjectByType<HotbarController>();
         chests = FindObjectsByType<Chest>(FindObjectsSortMode.InstanceID);
+        shops = FindObjectsByType<ShopNPC>(FindObjectsSortMode.InstanceID);
     }
 
     public void SaveGame()
@@ -33,10 +35,40 @@ public class SaveController : MonoBehaviour
             mapBoundary = FindFirstObjectByType<CinemachineConfiner2D>().BoundingShape2D.gameObject.name,
             inventorySaveData = inventoryController.GetInventoryItems(),
             hotbarSaveData = hotbarController.GetHotbarItems(),
-            chestSaveData = GetChestsState()
+            chestSaveData = GetChestsState(),
+
+            playerGold = CurrencyController.Instance.GetGold(),
+            shopStates = GetShopStates()
         };
 
         File.WriteAllText(saveLocation, JsonUtility.ToJson(saveData));
+    }
+
+    private List<ShopInstanceData> GetShopStates()
+    {
+        List<ShopInstanceData> shopStates = new List<ShopInstanceData>();
+
+        foreach (var shop in shops)
+        {
+            ShopInstanceData shopData = new ShopInstanceData
+            {
+                shopID = shop.shopID,
+                stock = new List<ShopItemData>()
+            };
+
+            foreach (var stockItem in shop.GetCurrentStock())
+            {
+                shopData.stock.Add(new ShopItemData
+                {
+                    itemID = stockItem.itemID,
+                    quantity = stockItem.quantity
+                });
+            }
+
+            shopStates.Add(shopData);
+        }
+
+        return shopStates;
     }
 
     private List<ChestSaveData> GetChestsState()
