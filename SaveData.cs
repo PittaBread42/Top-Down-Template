@@ -10,6 +10,7 @@ public class SaveData
     public List<InventorySaveData> inventorySaveData;
     public List<InventorySaveData> hotbarSaveData;
     public List<ChestSaveData> chestSaveData;
+    public List<QuestProgressData> questProgressData;
     
     public int playerGold;
     public List<ShopInstanceData> shopStates = new();
