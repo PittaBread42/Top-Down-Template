@@ -153,4 +153,26 @@ public class InventoryController : MonoBehaviour
         RebuildItemCounts();
     }
 
+    public void RemoveItemsFromInventory(int itemID, int amountToRemove)
+    {
+        foreach(Transform slotTransform in InventoryPanel.transform)
+        {
+            if(amountToRemove <= 0) break;
+
+            Slot slot = slotTransform.GetComponent<Slot>();
+            if(slot?.currentItem.GetComponent<Item>() is Item item.ID == itemID)
+            {
+                int removed = Mathf.Min(amountToRemove, item.quantity);
+                item.RemoveFromStack(removed);
+                amountToTemove -= removed;
+
+                if(item.quantity == 0)
+                {
+                    Destroy(slot.currentItem);
+                    slot.currentItem = null;
+                }
+            }
+        }
+        RebuildItemCounts();
+    }
 }
