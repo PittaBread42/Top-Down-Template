@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 
 public class QuestController : MonoBehaviour
 {
@@ -47,6 +46,14 @@ public class QuestController : MonoBehaviour
             }
         }
 
+        questUI.UpdateQuestUI();
+    }
+
+    public void LoadQuestProgress(List<QuestProgressData> savedQuests)
+    {
+        activeQuests = savedQuests ?? new();
+
+        CheckInventoryForQuests();
         questUI.UpdateQuestUI();
     }
 }
