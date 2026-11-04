@@ -106,6 +106,9 @@ public class SaveController : MonoBehaviour
             hotbarController.SetHotbarItems(saveData.hotbarSaveData);
 
             LoadChestStates(saveData.chestSaveData);
+
+            LoadShopStates(saveData.shopStates);
+            CurrencyController.Instance.SetGold(saveData.playerGold);
         }
         else
         {
@@ -115,6 +118,31 @@ public class SaveController : MonoBehaviour
             hotbarController.SetHotbarItems(new List<InventorySaveData>());
 
             MapController_Dynamic.Instance?.GenerateMap();
+        }
+    }
+
+    private void LoadShopStates(List<ShopInstanceData> shopStates)
+    {
+        if(shopStates == null) return;
+
+        foreach (var shop in shops)
+        {
+            ShopInstanceData shopData = shopStates.FirstOrDefault(s => s.shopID == shop.shopID)
+
+            if(shopData != null)
+            {
+                List<ShopNPC.ShopStockItem> loadedStock = new ner List<ShopNPC.ShopStockItem>();
+
+                foreach (var itemData in shopData.stock)
+                {
+                    loadedStock.Add(new ShopNPC ShopStockItem
+                    {
+                        itemID = itemData.itemID,
+                        quantity = itemData.quantity
+                    });
+                }
+                shop.SetStock(loadedStock);
+            }
         }
     }
 
