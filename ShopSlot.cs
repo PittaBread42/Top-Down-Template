@@ -10,7 +10,7 @@ public class ShopSlot : MonoBehaviour
 
     private void Awake()
     {
-        if(!priceText)
+        if (!priceText)
         {
             priceText = transform.Find("PriceText").GetComponent<TMP_Text>();
         }
@@ -18,7 +18,7 @@ public class ShopSlot : MonoBehaviour
 
     public void UpdatePriceDisplay()
     {
-        if(priceText && currentItem)
+        if (priceText && currentItem)
         {
             priceText.text = itemPrice.ToString();
         }
