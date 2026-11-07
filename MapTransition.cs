@@ -20,7 +20,7 @@ public class MapTransition : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             FadeTransition(collision.gameObject);
-        
+
             MapController_Manual.Instance?.HighlightArea(mapBoundary.name);
             MapController_Dynamic.Instance?.UpdateCurrentArea(mapBoundary.name);
         }
@@ -38,16 +38,16 @@ public class MapTransition : MonoBehaviour
         await ScreenFader.Instance.FadeIn();
 
         PauseController.SetPause(false);
-    }       
+    }
 
     private void updatePlayerPosition(GameObject player)
     {
-        if(direction == Direction.teleport)
+        if (direction == Direction.teleport)
         {
             player.transform.position = teleportTargetPosition.position;
             return;
         }
- 
+
         Vector3 newPos = player.transform.position;
 
         switch (direction)
