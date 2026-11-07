@@ -22,9 +22,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (PauseController.IsGamePaused)
         {
-            if (rb.velocity != Vector2.zero)
+            if (rb.linearVelocity != Vector2.zero)
             {
-                rb.velocity = Vector2.zero;
+                rb.linearVelocity = Vector2.zero;
                 StopMovementAnimations();
             }
             // animator.SetBool("isWalking", false);
@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
         // {
         //     StopFootsteps();
         // }
-        
+
     }
 
     void StopMovementAnimations()
@@ -72,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
     // {
     //     playingFootsteps = true;
     //     InvokeRepeating(nameof(PlayFootstep), of, footstepSpeed);
-        
+
     // }
 
     // void StopFootsteps()
