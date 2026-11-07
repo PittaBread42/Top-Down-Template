@@ -24,7 +24,7 @@ public class ShopController : MonoBehaviour
     {
         itemDictionary = FindFirstObjectByType<ItemDictionary>();
         shopPanel.SetActive(false);
-        if(CurrencyController.Instance != null)
+        if (CurrencyController.Instance != null)
         {
             CurrencyController.Instance.OnGoldChanged += UpdateMoneyDisplay;
             UpdateMoneyDisplay(CurrencyController.Instance.GetGold());
@@ -61,7 +61,7 @@ public class ShopController : MonoBehaviour
         if (currentShop == null) return;
         foreach (Transform child in shopInventoryGrid) Destroy(child.gameObject);
 
-        foreach (var stockItem in currentShop.GetCurrentStock())
+        foreach (var stockItem in currentShop.GetCurrentShopStock())
         {
             if (stockItem.quantity <= 0) continue;
 
@@ -74,14 +74,14 @@ public class ShopController : MonoBehaviour
         if (InventoryController.Instance == null) return;
         foreach (Transform child in playerInventoryGrid) Destroy(child.gameObject);
 
-        foreach (Transform slotTransform in InventoryController.Instance.inventoryPanel.transform)
+        foreach (Transform slotTransform in InventoryController.Instance.InventoryPanel.transform)
         {
-            Slot inventorySlot = slotTransform.GetComponenet<Slot>();
-            if(inventorySlot?.currentItem != null)
+            Slot inventorySlot = slotTransform.GetComponent<Slot>();
+            if (inventorySlot?.currentItem != null)
             {
-                item originalItem = inventorySlot.currentItem.GetComponent<Item>();
-                CreateShopSlot(playerInventoryGrid, originalItem.itemID, originalItem.quantity, false, inventorySlot);
-            } 
+                Item originalItem = inventorySlot.currentItem.GetComponent<Item>();
+                CreateShopSlot(playerInventoryGrid, originalItem.ID, originalItem.quantity, false, inventorySlot);
+            }
         }
     }
 
@@ -114,7 +114,7 @@ public class ShopController : MonoBehaviour
 
     public void AddItemToShop(int itemID, int quantity)
     {
-        if(!currentShop) return;
+        if (!currentShop) return;
         currentShop.AddToStock(itemID, quantity);
         RefreshShopDisplay();
     }
@@ -122,7 +122,7 @@ public class ShopController : MonoBehaviour
     public bool RemoveItemFromShop(int itemID, int quantity)
     {
         if (!currentShop) return false;
-        bool success = currentShop.RemoveFromShopStock(itemID, quantity);
+        bool success = currentShop.RemoveFromStock(itemID, quantity);
         if (success) RefreshShopDisplay();
         return success;
     }
