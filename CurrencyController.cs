@@ -8,10 +8,10 @@ public class CurrencyController : MonoBehaviour
     [SerializeField] private int startingGold = 100;
     private int playerGold = 100;
     public event Action<int> OnGoldChanged;
-    
+
     private void Awake()
     {
-        if(Instance !=null && Instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
@@ -32,7 +32,7 @@ public class CurrencyController : MonoBehaviour
             OnGoldChanged?.Invoke(playerGold);
             return true;
         }
-        return false; 
+        return false;
     }
 
     public void AddGold(int amount)
@@ -44,6 +44,6 @@ public class CurrencyController : MonoBehaviour
     public void SetGold(int amount)
     {
         playerGold = amount;
-        OnGoldChanged?.Invoke(playerGold); 
+        OnGoldChanged?.Invoke(playerGold);
     }
 }
