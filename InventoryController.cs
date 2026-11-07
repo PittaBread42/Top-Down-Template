@@ -28,17 +28,17 @@ public class InventoryController : MonoBehaviour
 
     public void RebuildItemCounts()
     {
-        itemCountCache.clear();
+        itemCountCache.Clear();
 
-        foreacb (transform slotTransform in inventoryPanel.transform)
+        foreach(Transform slotTransform in InventoryPanel.transform)
         {
             Slot slot = slotTransform.GetComponent<Slot>();
             if (slot.currentItem != null)
             {
-                Item item = slot.transform.currentItem.GetComponent<Item>();
-                if(item != null) 
+                Item item = slot.currentItem.GetComponent<Item>();
+                if (item != null)
                 {
-                    itemCountCache[item.ID] = itemCountCache.GetValueOrDefault(itemID, 0) + item.quantity;
+                    itemCountCache[item.ID] = itemCountCache.GetValueOrDefault(item.ID, 0) + item.quantity;
                 }
             }
         }
@@ -155,18 +155,18 @@ public class InventoryController : MonoBehaviour
 
     public void RemoveItemsFromInventory(int itemID, int amountToRemove)
     {
-        foreach(Transform slotTransform in InventoryPanel.transform)
+        foreach (Transform slotTransform in InventoryPanel.transform)
         {
-            if(amountToRemove <= 0) break;
+            if (amountToRemove <= 0) break;
 
             Slot slot = slotTransform.GetComponent<Slot>();
-            if(slot?.currentItem.GetComponent<Item>() is Item item.ID == itemID)
+            if (slot?.currentItem.GetComponent<Item>() is Item item && item.ID == itemID)
             {
                 int removed = Mathf.Min(amountToRemove, item.quantity);
                 item.RemoveFromStack(removed);
-                amountToTemove -= removed;
+                amountToRemove -= removed;
 
-                if(item.quantity == 0)
+                if (item.quantity == 0)
                 {
                     Destroy(slot.currentItem);
                     slot.currentItem = null;
