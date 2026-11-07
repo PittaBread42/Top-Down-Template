@@ -111,7 +111,7 @@ public class SaveController : MonoBehaviour
             LoadChestStates(saveData.chestSaveData);
 
             LoadShopStates(saveData.shopStates);
-            CurrencyController.Instance.GetGold(saveData.playerGold);
+            CurrencyController.Instance.SetGold(saveData.playerGold);
 
             QuestController.Instance.LoadQuestProgress(saveData.questProgressData);
             QuestController.Instance.handinQuestIDs = saveData.handinQuestIDs;
