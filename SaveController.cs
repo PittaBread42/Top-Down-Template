@@ -59,7 +59,7 @@ public class SaveController : MonoBehaviour
                 stock = new List<ShopItemData>()
             };
 
-            foreach (var stockItem in shop.GetCurrentStock())
+            foreach (var stockItem in shop.GetCurrentShopStock())
             {
                 shopData.stock.Add(new ShopItemData
                 {
@@ -129,19 +129,19 @@ public class SaveController : MonoBehaviour
 
     private void LoadShopStates(List<ShopInstanceData> shopStates)
     {
-        if(shopStates == null) return;
+        if (shopStates == null) return;
 
         foreach (var shop in shops)
         {
-            ShopInstanceData shopData = shopStates.FirstOrDefault(s => s.shopID == shop.shopID)
+            ShopInstanceData shopData = shopStates.FirstOrDefault(s => s.shopID == shop.shopID);
 
-            if(shopData != null)
+            if (shopData != null)
             {
-                List<ShopNPC.ShopStockItem> loadedStock = new ner List<ShopNPC.ShopStockItem>();
+                List<ShopNPC.ShopStockItem> loadedStock = new List<ShopNPC.ShopStockItem>();
 
                 foreach (var itemData in shopData.stock)
                 {
-                    loadedStock.Add(new ShopNPC ShopStockItem
+                    loadedStock.Add(new ShopNPC.ShopStockItem
                     {
                         itemID = itemData.itemID,
                         quantity = itemData.quantity
