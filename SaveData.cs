@@ -10,9 +10,9 @@ public class SaveData
     public List<InventorySaveData> inventorySaveData;
     public List<InventorySaveData> hotbarSaveData;
     public List<ChestSaveData> chestSaveData;
-    public List<QuestProgressData> questProgressData; 
-    public List<string> handinQuestsIDs;
-    
+    public List<QuestProgress> questProgressData;
+    public List<string> handinQuestIDs;
+
     public int playerGold;
     public List<ShopInstanceData> shopStates = new();
 }
@@ -21,7 +21,7 @@ public class SaveData
 
 public class ChestSaveData
 {
-    public string chestID;    
+    public string chestID;
     public bool isOpened;
 }
 
