@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
+using static ShopNPC;
 
 public class ShopNPC : MonoBehaviour, IInteractable
 {
@@ -22,7 +23,7 @@ public class ShopNPC : MonoBehaviour, IInteractable
 
     void Start()
     {
-
+        InitializeShop();
     }
 
     private void InitializeShop()
@@ -38,7 +39,7 @@ public class ShopNPC : MonoBehaviour, IInteractable
                 quantity = item.quantity
             });
         }
-        isInitialized = true; 
+        isInitialized = true;
     }
 
     public bool CanInteract()
@@ -46,11 +47,11 @@ public class ShopNPC : MonoBehaviour, IInteractable
         return true;
     }
 
-    public bool Interact()
+    public void Interact()
     {
         if (ShopController.Instance == null) return;
 
-        if (ShopController.Instance.shopPanel.activeSelf) ?
+        if (ShopController.Instance.shopPanel.activeSelf) 
         {
             ShopController.Instance.CloseShop();
         }
@@ -65,36 +66,36 @@ public class ShopNPC : MonoBehaviour, IInteractable
         return currentShopStock;
     }
 
-    public void SetStock(List<ShopStockItem> stock))
+    public void SetStock(List<ShopStockItem> stock)
     {
         currentShopStock = stock;
     }
 
-    public void AddToStock(int itemID, int quantity)
+public void AddToStock(int itemID, int quantity)
+{
+    ShopStockItem existing = currentShopStock.Find(s => s.itemID == itemID);
+    if (existing != null)
     {
-        ShopStockItem existing = currentShopStock.Find(s => s.itemID == itemID);
-        if (existing != null)
-        {
-            existing.quantity += quantity;
-        }
-        else
-        {
-            currentShopStock.Add(new ShopStockItem
-            {
-                itemID = itemID,
-                quantity = quantity
-            });
-        }
+        existing.quantity += quantity;
     }
+    else
+    {
+        currentShopStock.Add(new ShopStockItem
+        {
+            itemID = itemID,
+            quantity = quantity
+        });
+    }
+}
 
-    public bool RemoveFromStock(int itemID, int quantity)
+public bool RemoveFromStock(int itemID, int quantity)
+{
+    ShopStockItem existing = currentShopStock.Find(s => s.itemID == itemID);
+    if (existing != null && existing.quantity >= quantity)
     {
-        ShopStockItem existing = currentShopStock.Find(s => s.itemID == itemID);
-        if (existing != null && existing.quantity >= quantity)
-        {
-            existing.quantity -= quantity;
-            return true;
-        } 
-        return false;
+        existing.quantity -= quantity;
+        return true;
     }
+    return false;
+}
 }
