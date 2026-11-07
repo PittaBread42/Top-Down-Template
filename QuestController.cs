@@ -10,17 +10,17 @@ public class QuestController : MonoBehaviour
     public List<string> handinQuestIDs = new();
 
     private void Awake()
-    { 
-        if(Instance == null) Instance = this;
+    {
+        if (Instance == null) Instance = this;
         else Destroy(gameObject);
 
         questUI = FindFirstObjectByType<QuestUI>();
-        InventoryController.Instance.OnInventoryChanged += ChechInventoryForQuests;
+        InventoryController.Instance.OnInventoryChanged += CheckInventoryForQuests;
     }
 
     public void AcceptQuest(Quest quest)
     {
-        if(IsQuestActive(quest.questID)) return;
+        if (IsQuestActive(quest.questID)) return;
         activeQuests.Add(new QuestProgress(quest));
 
         CheckInventoryForQuests();
@@ -31,18 +31,18 @@ public class QuestController : MonoBehaviour
 
     public void CheckInventoryForQuests()
     {
-        Dictionary<int, int> = InventoryController.Instance.GetItemCounts();
+        Dictionary<int, int> itemCounts = InventoryController.Instance.GetItemCounts();
 
-        foreach(QuestProgress quest in activeQuests)
+        foreach (QuestProgress quest in activeQuests)
         {
-            foreach(QuestObjective questObjective in quest.objectives)
+            foreach (QuestObjective questObjective in quest.objectives)
             {
-                if(questObjective.type != objectiveType.collectItem) continue;
-                if(!int.tryParse(questOjective.objectiveID, out int itemID)) continue;
+                if (questObjective.type != ObjectiveType.CollectItem) continue;
+                if (!int.TryParse(questObjective.objectiveID, out int itemID)) continue;
 
-                int newAmount = itemCounts.TryGetValue(itemID, out int count) ? Mathf.min(count, questObjective.requiredAmount) : 0;
+                int newAmount = itemCounts.TryGetValue(itemID, out int count) ? Mathf.Min(count, questObjective.requiredAmount) : 0;
 
-                if(questObjective.currentAmount != newAmount)
+                if (questObjective.currentAmount != newAmount)
                 {
                     questObjective.currentAmount = newAmount;
                 }
@@ -54,21 +54,21 @@ public class QuestController : MonoBehaviour
 
     public bool IsQuestCompleted(string questID)
     {
-        QuestProgress quest = activeQuests.Find(q => q.questID == quest.questID);
-        return quest != null && quest.objectives.Transform(o => o.IsCompleted);
+        QuestProgress quest = activeQuests.Find(q => q.QuestID == questID);
+        return quest != null && quest.objectives.TrueForAll(o => o.IsCompleted);
     }
 
     public void HandInQuest(string questID)
     {
-        if(!RemovedRequiredItemsFromInventory(questID))
+        if (!RemovedRequiredItemsFromInventory(questID))
         {
             return;
         }
 
-        QuestProgress quest = activeQuests.Find(q => q.questID == quest.questID);
-        if(quest != null)
+        QuestProgress quest = activeQuests.Find(q => q.QuestID == questID);
+        if (quest != null)
         {
-            handinQuestIDs.ADD(questID);
+            handinQuestIDs.Add(questID);
             activeQuests.Remove(quest);
             questUI.UpdateQuestUI();
         }
@@ -82,36 +82,36 @@ public class QuestController : MonoBehaviour
 
     public bool RemovedRequiredItemsFromInventory(string questID)
     {
-        QuestProgress quest = activeQuests.Find(q => q.questID == quest.questID);
-        if(quest == null) return false;
+        QuestProgress quest = activeQuests.Find(q => q.QuestID == questID);
+        if (quest == null) return false;
 
         Dictionary<int, int> requiredItems = new();
 
-        foreach(QuestObjective in quest.objectives)
+        foreach (QuestObjective questObjective in quest.objectives)
         {
-            if(objective.Type == ObjectiveType.CollectItem && int.TryParse(objective.objectiveID), out int itemID)
+            if(questObjective.type == ObjectiveType.CollectItem && int.TryParse(questObjective.objectiveID, out int itemID))
             {
-                requiredItems[itemID] = objective.requiredAmount;
+                requiredItems[itemID] = questObjective.requiredAmount;
             }
         }
 
-        Dictionary<int, int> itemCounts = InventoryController.Instance.SetItemCounts();
-        foreach(var item in requiredItem)
+        Dictionary<int, int> itemCounts = InventoryController.Instance.GetItemCounts();
+        foreach (var item in requiredItems)
         {
-            if(itemCounts.GetValueOrDefault(item.key) < item.Value)
+            if (itemCounts.GetValueOrDefault(item.Key) < item.Value)
             {
                 return false;
             }
         }
 
-        foreach(var itemRequirement in requiredItem)
+        foreach (var itemRequirement in requiredItems)
         {
             InventoryController.Instance.RemoveItemsFromInventory(itemRequirement.Key, itemRequirement.Value);
         }
         return true;
     }
 
-    public void LoadQuestProgress(List<QuestProgressData> savedQuests)
+    public void LoadQuestProgress(List<QuestProgress> savedQuests)
     {
         activeQuests = savedQuests ?? new();
 
