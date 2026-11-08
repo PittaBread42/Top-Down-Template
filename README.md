@@ -23,7 +23,9 @@ NIY = Not implemented yet (it's not currently used in the game)
 - NPC movement between waypoints
 - NPC animation 
 - Sound Effects - NIY
-- Quest System - NIY
+- Quest System
+- Entering Buildings (poorly)
+- Buying items - NIY
 
 **Building Process**
 
