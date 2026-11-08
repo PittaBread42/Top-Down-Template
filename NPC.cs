@@ -93,6 +93,7 @@ public class NPC : MonoBehaviour, IInteractable
             StopAllCoroutines();
             dialogueUI.SetDialogueText(dialogueData.dialogueLines[dialogueIndex]);
             isTyping = false;
+            return;
         }
 
         dialogueUI.ClearChoices();
@@ -148,7 +149,12 @@ public class NPC : MonoBehaviour, IInteractable
         for (int i = 0; i < choice.choices.Length; i++)
         {
             int nextIndex = choice.nextDialogueIndexes[i];
-            bool givesQuest = choice.givesQuest[i];
+
+            bool givesQuest =
+                i < choice.givesQuest.Length
+                ? choice.givesQuest[i]
+                : false;
+
             dialogueUI.CreateChoiceButton(choice.choices[i], () => ChooseOption(nextIndex, givesQuest));
         }
     }
