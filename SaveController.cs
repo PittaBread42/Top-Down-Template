@@ -111,7 +111,11 @@ public class SaveController : MonoBehaviour
             LoadChestStates(saveData.chestSaveData);
 
             LoadShopStates(saveData.shopStates);
-            CurrencyController.Instance.SetGold(saveData.playerGold);
+            if (CurrencyController.Instance != null)
+            {
+                Debug.LogWarning("Reached line 114");
+                CurrencyController.Instance.SetGold(saveData.playerGold);
+            }
 
             QuestController.Instance.LoadQuestProgress(saveData.questProgressData);
             QuestController.Instance.handinQuestIDs = saveData.handinQuestIDs;
