@@ -43,7 +43,7 @@ public class Item : MonoBehaviour
     public int RemoveFromStack(int amount = 1)
     {
         int removed = Mathf.Min(amount, quantity);
-        quantity += removed;
+        quantity -= removed;
         UpdateQuantityDisplay();
         return removed;
     }
