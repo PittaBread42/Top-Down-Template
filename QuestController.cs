@@ -11,11 +11,24 @@ public class QuestController : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
 
         questUI = FindFirstObjectByType<QuestUI>();
-        InventoryController.Instance.OnInventoryChanged += CheckInventoryForQuests;
+    }
+
+    private void Start()
+    {
+        if (InventoryController.Instance != null)
+        {
+            InventoryController.Instance.OnInventoryChanged += CheckInventoryForQuests;
+        }
+        else
+        {
+            Debug.LogError("InventoryController.Instance is null");
+        }
     }
 
     public void AcceptQuest(Quest quest)
