@@ -7,7 +7,7 @@ public class ScreenFader : MonoBehaviour
     public static ScreenFader Instance;
     [SerializeField] CanvasGroup canvasGroup;
     [SerializeField] float fadeDuration = 0.5f;
-    [SerializeField] CinemachineCamera vCam;
+    //[SerializeField] CinemachineCamera vCam;
 
     private void Awake()
     {
@@ -17,22 +17,31 @@ public class ScreenFader : MonoBehaviour
 
     async Task Fade(float targetTransparency)
     {
-        float start = canvasGroup.alpha, t = 0;
+        canvasGroup.blocksRaycasts = true;
+
+        float start = canvasGroup.alpha;
+        float t = 0;
+
         while (t < fadeDuration)
         {
             t += Time.deltaTime;
-            canvasGroup.alpha = Mathf.Lerp(start, targetTransparency, t / fadeDuration);
-            vCam.PreviousStateIsValid = false;
+            canvasGroup.alpha = Mathf.Lerp(
+                start,
+                targetTransparency,
+                t / fadeDuration);
 
             await Task.Yield();
         }
+
         canvasGroup.alpha = targetTransparency;
+
+        canvasGroup.blocksRaycasts = false;
     }
 
     public async Task FadeOut()
     {
         await Fade(1);
-        vCam.PreviousStateIsValid = false;
+        //vCam.PreviousStateIsValid = false;
     }
 
     public async Task FadeIn()
