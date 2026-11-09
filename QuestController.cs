@@ -128,6 +128,8 @@ public class QuestController : MonoBehaviour
     {
         activeQuests = savedQuests ?? new();
 
+        activeQuests.RemoveAll(q => q == null || q.quest == null);
+
         CheckInventoryForQuests();
         questUI.UpdateQuestUI();
     }
